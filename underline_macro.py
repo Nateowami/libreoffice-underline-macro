@@ -33,7 +33,7 @@ def getDesktop():
     return smgr.createInstanceWithContext("com.sun.star.frame.Desktop", ctx)
 
 
-def main():
+def Underline_Words():
     log('main')
     desktop = getDesktop()
     model = desktop.getCurrentComponent()
@@ -66,4 +66,6 @@ def structify(keypairs):
     return tuple(result)
 
 
-main()
+Underline_Words()
+
+g_exportedScripts = (Underline_Words, )
