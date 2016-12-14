@@ -32,12 +32,15 @@ def main():
     # struct.Name = 'CharFontName'
     # struct.Value = 'Arial'
     # props = tuple([struct])
-    props = structify({'CharFontName': 'Arial', 'CharFontUnderline': 1})
+    props = structify({
+                # 'CharFontName': 'Arial',
+                'CharUnderline': 1
+            })
 
     replaceDescriptor.setReplaceAttributes(props)
     replaceDescriptor.SearchRegularExpression = True
-    replaceDescriptor.SearchString = 'H(.{3})o'
-    replaceDescriptor.ReplaceString = 'Do you like j$1o'
+    replaceDescriptor.SearchString = '%x(.*?)x%'
+    replaceDescriptor.ReplaceString = '$1'
     numReplaced = model.replaceAll(replaceDescriptor)
 
     print(numReplaced)
