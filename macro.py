@@ -1,37 +1,45 @@
 import uno
 from pprint import pprint
 
-# get the uno component context from the PyUNO runtime
-localContext = uno.getComponentContext()
 
-# create the UnoUrlResolver
-resolver = localContext.ServiceManager.createInstanceWithContext(
-        "com.sun.star.bridge.UnoUrlResolver", localContext)
+def log(data):
+    f = open('/home/nate/git/underline-macro/log.txt', 'a')
+    f.write(data + '\n')
+    f.close()
 
-# connect to the running office
-ctx = resolver.resolve(
-        "uno:socket,host=localhost,port=2002;urp;StarOffice.ComponentContext")
-smgr = ctx.ServiceManager
 
-# get the central desktop object
-desktop = smgr.createInstanceWithContext("com.sun.star.frame.Desktop", ctx)
+def getDesktop():
+    log('getDesktop')
+    # If being run from inside LibreOffice, XSCRIPTCONTEXT will be defined
+    if 'XSCRIPTCONTEXT' in globals():
+        log("using XSCRIPTCONTEXT")
+        return XSCRIPTCONTEXT.getDesktop()  # NOQA to disable Flake8 here
 
-# desktop = XSCRIPTCONTEXT.getDesktop()
-model = desktop.getCurrentComponent()
+    # Otherwise, if we're running form the command line, we have to connect to
+    # a running instance of LibreOffice. Libreoffice must be started to listen
+    # on a socket that we connect to in order for this to work.
+
+    localContext = uno.getComponentContext()
+    # create the UnoUrlResolver
+    resolver = localContext.ServiceManager.createInstanceWithContext(
+            "com.sun.star.bridge.UnoUrlResolver", localContext)
+    # connect to the running office
+    ctx = resolver.resolve(
+            "uno:socket,host=localhost,port=2002;urp;"
+            "StarOffice.ComponentContext")
+    smgr = ctx.ServiceManager
+    # get the central desktop object
+    log('using the socket method')
+    return smgr.createInstanceWithContext("com.sun.star.frame.Desktop", ctx)
 
 
 def main():
-
-    # text = model.Text
+    log('main')
+    desktop = getDesktop()
+    model = desktop.getCurrentComponent()
 
     replaceDescriptor = model.createReplaceDescriptor()
 
-    # print(dir(sd.ReplaceAttributes))
-
-    # struct = uno.createUnoStruct('com.sun.star.beans.PropertyValue')
-    # struct.Name = 'CharFontName'
-    # struct.Value = 'Arial'
-    # props = tuple([struct])
     props = structify({
                 # 'CharFontName': 'Arial',
                 'CharUnderline': 1
