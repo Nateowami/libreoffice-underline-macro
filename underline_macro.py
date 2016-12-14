@@ -40,22 +40,24 @@ def Underline_Words():
     desktop = getDesktop()
     model = desktop.getCurrentComponent()
 
+    # Remove closing "tags" that are immediately followed by opening tags.
+    # Otherwise there could be tiny gaps in the underlining.
+    apply_regex(model, 'x% ?%x', '')
+    apply_regex(model, '%x(.*?)x%', '$1', {'CharUnderline': 1})
+
+
+def apply_regex(model, search, replace, replaceAttrs={}):
     replaceDescriptor = model.createReplaceDescriptor()
 
-    props = structify({
-                # 'CharFontName': 'Arial',
-                'CharUnderline': 1
-            })
-
+    props = structify(replaceAttrs)
     replaceDescriptor.setReplaceAttributes(props)
-    replaceDescriptor.SearchRegularExpression = True
-    replaceDescriptor.SearchString = '%x(.*?)x%'
-    replaceDescriptor.ReplaceString = '$1'
-    numReplaced = model.replaceAll(replaceDescriptor)
 
-    print(numReplaced)
-    pprint(dir(replaceDescriptor))
-    print(type(replaceDescriptor.getReplaceAttributes()))
+    replaceDescriptor.SearchRegularExpression = True
+    replaceDescriptor.SearchString = search
+    replaceDescriptor.ReplaceString = replace
+
+    numReplaced = model.replaceAll(replaceDescriptor)
+    return numReplaced
 
 
 def structify(keypairs):
