@@ -68,6 +68,7 @@ def structify(keypairs):
     return tuple(result)
 
 
-Underline_Words()
-
 g_exportedScripts = (Underline_Words, )
+
+if __name__ == "__main__":
+    Underline_Words()
