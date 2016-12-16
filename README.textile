@@ -1,0 +1,33 @@
+h1. LibreOffice underline macro
+
+The purpose of this macro is to apply formatting based on plain text. Specifically, text surrounded with @%u@ and @u%@ will be underlined.
+
+For example, if this is found in the document:
+
+bq. A &#37;uwordu&#37; should be underlined.
+
+The resulting formatting will be:
+
+bq. A +word+ should be underlined.
+
+The use case for this is that formatting information may need to be passed through a system that does not support formatting before being added to the document. By using @%u@ and @u%@ tags the formatting information can be preserved no matter the system handeling the data.
+
+h2. Settup and Usage
+
+h3. Dependencies
+
+Install @libreoffice-script-provider-python@ on Linux (@sudo apt-get install libreoffice-script-provider-python@). On other operating systems, in LibreOffice try to find @Tools@ > @Macros@ > @Organize Macros@ > @Python...@. If Python is in the menu you should be good to go. Otherwise open an issue.
+
+h3. Installation
+
+Clone the repo and copy the file @underline_macro.py@ to @/usr/lib/libreoffice/share/Scripts/python@. Close _all_ instances of LibreOffice.
+
+h3. Running the Macro
+
+Open a document and go to @Tools@ > @Macros@ > @Organize Macros@ > @Python...@. In the dialog that appears, go to @LibreOffice Macros@ > @underline_macro@ > @Underline_Words@. Select Underline_Words and click Run.
+
+h2. TODO
+
+* Easier install
+* Keyboard or menu shortcut
+* Testing with other versions and platforms. Developed with LibreOffice 5.1.4.2 on Ubuntu 16.04.
