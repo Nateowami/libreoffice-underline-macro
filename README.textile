@@ -10,24 +10,37 @@ The resulting formatting will be:
 
 bq. A +word+ should be underlined.
 
-The use case for this is that formatting information may need to be passed through a system that does not support formatting before being added to the document. By using @%u@ and @u%@ tags the formatting information can be preserved no matter the system handeling the data.
+The use case for this is that formatting information may need to be passed through a system that does not support formatting before being added to the document. By using @%u@ and @u%@ tags the formatting information can be preserved no matter the system handling the data.
 
-h2. Settup and Usage
+h2. Setup and Usage
 
 h3. Dependencies
 
-Install @libreoffice-script-provider-python@ on Linux (@sudo apt-get install libreoffice-script-provider-python@). On other operating systems, in LibreOffice try to find @Tools@ > @Macros@ > @Organize Macros@ > @Python...@. If Python is in the menu you should be good to go. Otherwise open an issue.
+If you're on Windows you can probably skip to the installation step. If you get stuck, come back and read this step.
+
+In LibreOffice, try to find the following in the menu: @Tools@ > @Macros@ > @Organize Macros@ > @Python...@. If it doesn't list Python then:
+
+* If you're on Windows or MacOS, open an issue.
+* If you're on an apt-based Linux distro, install the @libreoffice-script-provider-python@ package (it's in the repositories for Ubuntu 16.04, and probably others). If you can't install it, or after installing it and closing LibreOffice, Python is still not in the menu, open an issue.
 
 h3. Installation
 
-Clone the repo and copy the file @underline_macro.py@ to @/usr/lib/libreoffice/share/Scripts/python@. Close _all_ instances of LibreOffice.
+Save the file "underline_macro.py":https://raw.githubusercontent.com/Nateowami/libreoffice-underline-macro/master/underline_macro.py to LibreOffice's macro directory, which depends on your operating system:
+
+* Windows: @C:\Program Files (x86)\LibreOffice 5\share\Scripts\python@
+* Linux: @/usr/lib/libreoffice/share/Scripts/python@
+* Mac: Not completely sure, but try @/Applications/LibreOffice Vanilla.app/Contents/Resources/Scripts/python/@
+
+Then close _all_ instances of LibreOffice.
 
 h3. Running the Macro
 
-Open a document and go to @Tools@ > @Macros@ > @Organize Macros@ > @Python...@. In the dialog that appears, go to @LibreOffice Macros@ > @underline_macro@ > @Underline_Words@. Select Underline_Words and click Run.
+Open a document and go to @Tools@ > @Macros@ > @Organize Macros@ > @Python...@. In the dialog that appears, go to @LibreOffice Macros@ > @underline_macro@ > @Underline_Words@. Select Underline_Words in the right pane and click Run.
+
+Need something to try it out on? Copy this text into your document: "Underline &#37;uthisu&#37; word." You should end up with "Underline +this+ word."
 
 h2. TODO
 
 * Easier install
 * Keyboard or menu shortcut
-* Testing with other versions and platforms. Developed with LibreOffice 5.1.4.2 on Ubuntu 16.04.
+* Testing with more platforms. Developed with LibreOffice 5.1.4.2 on Ubuntu 16.04. Confirmed to work on Windows 10.
