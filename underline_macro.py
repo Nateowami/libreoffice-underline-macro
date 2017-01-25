@@ -1,20 +1,19 @@
 #!/usr/bin/python3
 
 import uno
-from pprint import pprint
 
 
+# Logging util for debugging when run from within LibreOffice.
 def log(data):
-    f = open('/home/nate/git/underline-macro/log.txt', 'a')
+    # Logging only works on *nix systems
+    f = open('~/log.txt', 'a')
     f.write(data + '\n')
     f.close()
 
 
 def getDesktop():
-    log('getDesktop')
     # If being run from inside LibreOffice, XSCRIPTCONTEXT will be defined
     if 'XSCRIPTCONTEXT' in globals():
-        log("using XSCRIPTCONTEXT")
         return XSCRIPTCONTEXT.getDesktop()  # NOQA to disable Flake8 here
 
     # Otherwise, if we're running form the command line, we have to connect to
@@ -31,12 +30,10 @@ def getDesktop():
             "StarOffice.ComponentContext")
     smgr = ctx.ServiceManager
     # get the central desktop object
-    log('using the socket method')
     return smgr.createInstanceWithContext("com.sun.star.frame.Desktop", ctx)
 
 
 def Underline_Words():
-    log('main')
     desktop = getDesktop()
     model = desktop.getCurrentComponent()
 
