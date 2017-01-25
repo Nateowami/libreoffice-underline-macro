@@ -14,7 +14,7 @@ def log(data):
 def getDesktop():
     # If being run from inside LibreOffice, XSCRIPTCONTEXT will be defined
     if 'XSCRIPTCONTEXT' in globals():
-        return XSCRIPTCONTEXT.getDesktop()  # NOQA to disable Flake8 here
+        return XSCRIPTCONTEXT.getDesktop()
 
     # Otherwise, if we're running form the command line, we have to connect to
     # a running instance of LibreOffice. Libreoffice must be started to listen
